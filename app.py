@@ -69,12 +69,16 @@ def Main():
 
                     st.write(data[i]['summary'])
 
-                i += 1
-                if i == len(data):
-                    i = 0
-                time.sleep(refresh_rate)
+            i += 1
+            if i == len(data):
+                i = 0
+            time.sleep(refresh_rate)
 
             placeholder.empty()
+            
+            # delay required to ensure the placeholder is properly cleared
+            time.sleep(0.1)
+
 
 
 if __name__ == "__main__":
