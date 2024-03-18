@@ -3,11 +3,13 @@ import pickle
 import pathlib
 import os
 from datetime import datetime, timedelta
-import credentials
+
 
 class Auth:
-    def __init__(self):
+    def __init__(self, client_id:str, client_secret:str):
         self.AUTH_COOKIE = "auth.pkl"
+        self.client_id = client_id
+        self.client_secret = client_secret
         self.authenticated = self.__Authenticate()
 
     def __SetAuthData(self, auth_data:str) -> bool:
@@ -63,7 +65,7 @@ class Auth:
             return True
         else:
             print("Authenticating")
-            resp = requests.post(f"https://id.twitch.tv/oauth2/token?client_id={credentials.CLIENT_ID}&client_secret={credentials.CLIENT_SECRET}&grant_type=client_credentials")
+            resp = requests.post(f"https://id.twitch.tv/oauth2/token?client_id={self.client_id}&client_secret={self.client_secret}&grant_type=client_credentials")
             if resp.status_code == 200:
                 self.__CreateAuthCookie(resp.json())
                 print("Authentication Successful")

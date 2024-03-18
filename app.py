@@ -3,7 +3,6 @@ import requests
 import time
 from datetime import datetime
 import twitchAuth
-import credentials
 
 
 @st.cache_data
@@ -11,7 +10,7 @@ def _IGDBQuery(game_count:int, min_rating:int):
     url = "https://api.igdb.com/v4/games"
     params = {
         "headers": {
-            "Client-ID": credentials.CLIENT_ID,
+            "Client-ID": st.secrets['CLIENT_ID'],
             "Authorization": f"{auth.token_type} {auth.access_token}",
         },
         "data": f"fields id,name,rating,cover.*,first_release_date,game_engines.*,summary,url; where rating > {min_rating}; limit {game_count};"
@@ -79,5 +78,5 @@ def Main():
 
 
 if __name__ == "__main__":
-    auth = twitchAuth.Auth()
+    auth = twitchAuth.Auth(client_id=st.secrets['CLIENT_ID'], client_secret=st.secrets['CLIENT_SECRET'])
     Main()
